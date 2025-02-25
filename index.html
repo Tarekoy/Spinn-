@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+Devolepar md Tarek islam 
+<body> <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -49,7 +50,7 @@
         }
         .slice:nth-child(1) { background: #ff0000; transform: rotate(0deg); }
         .slice:nth-child(2) { background: #ff9900; transform: rotate(60deg); }
-        .slice:nth-child(3) { background: #33cc33; transform: rotate(120deg); }
+        .slice:nth-child(3) { background: #33cc33; transform: rotate(120deg); } 
         .slice:nth-child(4) { background: #3399ff; transform: rotate(180deg); }
         .slice:nth-child(5) { background: #9900cc; transform: rotate(240deg); }
         .slice:nth-child(6) { background: #ff3399; transform: rotate(300deg); }
@@ -64,125 +65,163 @@
             clip-path: polygon(50% 0, 0 100%, 100% 100%);
         }
         .button {
-            background: #28a745;
+            background: linear-gradient(90deg, #ff8c00, #ff5a00);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
+            font-size: 16px;
             border: none;
             cursor: pointer;
             margin: 10px;
             border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(255, 100, 0, 0.5);
         }
         .button:hover {
-            background: #218838;
+            background: linear-gradient(90deg, #ff5a00, #ff8c00);
         }
-        .balance, .result, .spins-left {
+        .balance, .result, .spins-left, .ads-watched {
             font-size: 1.5em;
-            margin: 10px;
-        }
-    </style>
+       }
+     margin: 10px;
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Spin and Win</h1>
-        <div class="balance">Balance: $<span id="balance">0</span></div>
-        <div class="spins-left">Spins Left: <span id="spins">0</span></div>
-        <div class="wheel-container">
-            <div class="pointer"></div>
-            <div id="wheel" class="wheel">
-                <div class="slice">0$</div>
-                <div class="slice">$1</div>
-                <div class="slice">$5</div>
-                <div class="slice">$10</div>
-                <div class="slice">$20</div>
-                <div class="slice">$50</div>
-            </div>
+<div class="container">
+    <h1>Spin and Win</h1>
+    <div class="balance">Balance: $<span id="balance">0</span></div>
+    <div class="spins-left">Spins Left: <span id="spins">0</span></div>
+    <div class="ads-watched">Ads Watched: <span id="ads">0</span>/20</div>
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel">
+            <div class="slice">0$</div>
+            <div class="slice">$1</div>
+            <div class="slice">$2</div>
+            <div class="slice">$30</div>
+            <div class="slice">$4</div>
+            <div class="slice">$5</div>
         </div>
-        <button class="button" onclick="watchAd()">Watch Ad (Earn 1 Spin)</button>
-        <button class="button" id="spinButton" onclick="spinWheel()" disabled>Spin Now</button>
-        <button class="button" onclick="withdraw()">Withdraw</button>
-        <button class="button" onclick="refer()">Referral</button>
-        <div class="result" id="result">Win Amount: $0</div>
-        <br>
-        <a href="https://www.effectiveratecpm.com/hjrkhsvscc?key=e9287df26cc01f5e4f9fb4e2169f25c4" target="_blank">
-            <button class="button">Claim Bonus</button>
-        </a>
     </div>
+    <button class="button" onclick="watchAd()">Watch Ad (Earn Spins)</button>
+    <button class="button" id="spinButton" onclick="spinWheel()" disabled>Spin Now</button>
+    <button class="button" onclick="withdraw()">Withdraw</button>
+    <button class="button" onclick="refer()">Referral</button>
+    <div class="result" id="result">Win Amount: $0</div>
+    <br>
+    <a href="https://www.effectiveratecpm.com/hjrkhsvscc?key=e9287df26cc01f5e4f9fb4e2169f25c4" target="_blank">
+        <button class="button">Direct Bonus</button>
+    </a>
+</div>
 
-    <!-- Propeller Ads Script -->
-    <script src="https://whephiwums.com/sdk.js" data-zone="8983333" data-sdk="show_8983333"></script>
+<!-- Monetag Ad Script -->
+<script src="https://whephiwums.com/sdk.js" data-zone="8983333" data-sdk="show_8983333"></script>
 
-    <script>
-        let balance = parseInt(localStorage.getItem("balance")) || 0;
-        let spins = parseInt(localStorage.getItem("spins")) || 0;
+<script>
+    let balance = parseInt(localStorage.getItem("balance")) || 0;
+    let spins = parseInt(localStorage.getItem("spins")) || 0;
+    let adsWatched = parseInt(localStorage.getItem("ads")) || 0;
 
-        const wheel = document.getElementById("wheel");
-        const balanceDisplay = document.getElementById("balance");
-        const spinsDisplay = document.getElementById("spins");
-        const resultDisplay = document.getElementById("result");
-        const spinButton = document.getElementById("spinButton");
+    const balanceDisplay = document.getElementById("balance");
+    const spinsDisplay = document.getElementById("spins");
+    const adsDisplay = document.getElementById("ads");
+    const resultDisplay = document.getElementById("result");
+    const spinButton = document.getElementById("spinButton");
+    const wheel = document.getElementById("wheel");
 
-        balanceDisplay.innerText = balance;
-        spinsDisplay.innerText = spins;
-        updateSpinButton();
+    balanceDisplay.innerText = balance;
+    spinsDisplay.innerText = spins;
+    adsDisplay.innerText = `${adsWatched}/20`;
+    updateSpinButton();
 
-        function watchAd() {
-            if (typeof show_8983333 === "function") {
-                show_8983333();
-                setTimeout(() => {
-                    alert("You watched an ad and earned 1 spin!");
-                    spins += 1;
-                    localStorage.setItem("spins", spins);
-                    spinsDisplay.innerText = spins;
-                    updateSpinButton();
-                }, 5000);
-            } else {
-                alert("Ad is not available right now. Try again later.");
+    function updateSpinButton() {
+        spinButton.disabled = spins <= 0;
+    }
+
+    function watchAd() {
+        if (adsWatched < 20) {
+            try {
+                if (typeof show_8983333 === "function") {
+                    show_8983333();
+                    setTimeout(() => {
+                        adsWatched++;
+                        localStorage.setItem("ads", adsWatched);
+                        adsDisplay.innerText = `${adsWatched}/20`;
+
+                        if (adsWatched % 4 === 0) {
+                            spins++;
+                            localStorage.setItem("spins", spins);
+                            spinsDisplay.innerText = spins;
+                            alert("You earned 1 spin after watching 4 ads!");
+                        }
+                        updateSpinButton();
+                    }, 5000);
+                } else {
+                    alert("Ad is not available at the moment. Try again later.");
+                }
+            } catch (error) {
+                alert("Error loading ad. Please check your internet connection.");
             }
+        } else {
+            alert("You have reached the daily limit of 20 ads.");
         }
+    }
 
-        function spinWheel() {
-            if (spins > 0) {
-                spins--;
-                localStorage.setItem("spins", spins);
-                spinsDisplay.innerText = spins;
-                updateSpinButton();
+    function spinWheel() {
+        if (spins > 0) {
+            spins--;
+            localStorage.setItem("spins", spins);
+            spinsDisplay.innerText = spins;
+            updateSpinButton();
 
-                let randomAngle = Math.floor(Math.random() * 360) + 1800;
-                wheel.style.transform = `rotate(${randomAngle}deg)`;
+            let randomAngle = Math.floor(Math.random() * 360) + 1800;
+            wheel.style.transform = `rotate(${randomAngle}deg)`;
 
-                setTimeout(() => {
-                    let prizes = [0, 1, 5, 10, 20, 50];
-                    let section = Math.floor((randomAngle % 360) / 60);
-                    let prize = prizes[section];
+            setTimeout(() => {
+                let prizes = [1, 1, 1, 5, 10, 20];
+                let section = Math.floor((randomAngle % 360) / 60);
+                let prize = prizes[section];
 
-                    balance += prize;
-                    localStorage.setItem("balance", balance);
-                    balanceDisplay.innerText = balance;
-                    resultDisplay.innerText = `Win Amount: $${prize}`;
-                }, 5000);
-            } else {
-                alert("No spins left! Watch an ad to earn spins.");
-            }
-        }
-
-        function withdraw() {
-            if (spins >= 100 && balance >= 10) {
-                alert("Withdraw request sent!");
-                balance = 0;
+                balance += prize;
                 localStorage.setItem("balance", balance);
                 balanceDisplay.innerText = balance;
+                resultDisplay.innerText = `Win Amount: $${prize}`;
+            }, 5000);
+        } else {
+            alert("No spins left! Watch ads to earn spins.");
+        }
+    }
+function withdraw() {
+            if (balance >= 100) {
+                alert("Withdraw request submitted! Minimum 100 BDT required.");
+                balance = 0;
+                document.getElementById("balance").innerText = balance;
             } else {
-                alert("Minimum withdrawal is 100 spins and $10 balance.");
+                alert("Minimum withdraw amount is 100 BDT.");
             }
         }
 
         function refer() {
-            alert("Share this referral link: https://example.com/referral");
+            let referralLink = "https://t.me/Monetagddbot";
+            navigator.clipboard.writeText(referralLink);
+            alert("Referral link copied!");
         }
+    
+    function withdraw() {
+        let amount = parseFloat(prompt("Enter amount to withdraw:"));
+        if (amount > balance) {
+            alert("Not enough balance!");
+        } else {
+            balance -= amount;
+            localStorage.setItem("balance", balance);
+            balanceDisplay.innerText = balance;
+            alert(`Withdrawal of $${amount} successful!`);
+        }
+    }
 
-        function updateSpinButton() {
-            spinButton.disabled = spins === 0;
-        }
-    </script>
+    function refer() {
+        let referralLink = "https://t.me/Monetagddbot";
+        alert(`Share this referral link: ${referralLink}`);
+    }
+</script>
+
 </body>
-</html>
+                </html>
